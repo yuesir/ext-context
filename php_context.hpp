@@ -11,7 +11,7 @@
 extern zend_module_entry context_module_entry;
 #define phpext_context_ptr &context_module_entry
 
-#define PHP_CONTEXT_VERSION "0.1.0"
+#define PHP_CONTEXT_VERSION "0.1.1"
 
 #if defined(__GNUC__) && __GNUC__ >= 4
 #define PHP_CONTEXT_API __attribute__ ((visibility("default")))
@@ -27,8 +27,17 @@ extern zend_module_entry context_module_entry;
 ZEND_TSRMLS_CACHE_EXTERN()
 #endif
 
+#if PHP_VERSION_ID < 70115 || (PHP_VERSION_ID > 70200 && PHP_VERSION_ID < 70203)
+
+#if PHP_VERSION_ID < 70100
+#define _zend_wrong_parameters_count_error(throw, ...) zend_wrong_paramers_count_error(__VA_ARGS__)
+#elif PHP_VERSION_ID < 70200
+#define _zend_wrong_parameters_count_error(throw, ...) zend_wrong_parameters_count_error(__VA_ARGS__)
+#else
+#define _zend_wrong_parameters_count_error(...) zend_wrong_parameters_count_error(__VA_ARGS__)
+#endif
+
 // See https://externals.io/message/101364 for details.
-// The following code will be removed once the issue is fixed.
 #undef ZEND_PARSE_PARAMETERS_START_EX
 #define ZEND_PARSE_PARAMETERS_START_EX(flags, min_num_args, max_num_args) do { \
     const int _flags = (flags); \
@@ -54,7 +63,8 @@ ZEND_TSRMLS_CACHE_EXTERN()
             (UNEXPECTED(_num_args > _max_num_args) && \
              EXPECTED(_max_num_args >= 0))) { \
             if (!(_flags & ZEND_PARSE_PARAMS_QUIET)) { \
-                zend_wrong_parameters_count_error(_num_args, _min_num_args, _max_num_args); \
+                _zend_wrong_parameters_count_error(_flags & ZEND_PARSE_PARAMS_THROW, \
+                    _num_args, _min_num_args, _max_num_args); \
             } \
             error_code = ZPP_ERROR_FAILURE; \
             break; \
@@ -62,7 +72,9 @@ ZEND_TSRMLS_CACHE_EXTERN()
         _i = 0; \
         _real_arg = ZEND_CALL_ARG(execute_data, 0);
 
+#endif
+
 // A little modification to p3.h
 #undef P3_STATIC_ME
 #define P3_STATIC_ME(name, cls, meth, arginfo, flags) \
-  ZEND_FENTRY(name, &cls::zim_##meth, arginfo, flags | ZEND_ACC_STATIC)
+    ZEND_FENTRY(name, &cls::zim_##meth, arginfo, flags | ZEND_ACC_STATIC)

@@ -8,7 +8,7 @@
 
 #define PHP_CONTEXT_FUNCTION \
     [&fci, &fcc](ctx::continuation&& cont) { \
-        zend_object* obj = p3::allocObject<continuation>(class_entry, \
+        auto obj = p3::allocObject<continuation>(class_entry, \
             [&cont](continuation* ptr) { \
                 new(ptr) continuation(std::move(cont)); \
             }); \
@@ -22,8 +22,8 @@
 
 P3_METHOD(continuation, resume)
 {
-    zend_fcall_info fci;
-    zend_fcall_info_cache fcc;
+    auto fci = empty_fcall_info;
+    auto fcc = empty_fcall_info_cache;
     ZEND_PARSE_PARAMETERS_START(0, 1)
         Z_PARAM_OPTIONAL
         Z_PARAM_FUNC(fci, fcc);
@@ -63,8 +63,8 @@ int continuation::compare(const continuation& other) const
 
 P3_METHOD(continuation, callcc)
 {
-    zend_fcall_info fci;
-    zend_fcall_info_cache fcc;
+    auto fci = empty_fcall_info;
+    auto fcc = empty_fcall_info_cache;
     ZEND_PARSE_PARAMETERS_START(1, 1)
         Z_PARAM_FUNC(fci, fcc);
     ZEND_PARSE_PARAMETERS_END();

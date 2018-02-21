@@ -2,7 +2,7 @@
 /**
  * examples/fibonacci.php
  *
- * A simple demonstration for using this library.
+ * A simple demonstration for using ext-context.
  * Generates the first ten fibonacci numbers.
  * Ported from Boost.Context's official documentation.
  *

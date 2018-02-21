@@ -14,6 +14,7 @@ namespace ctx = boost::context;
 
 class continuation
 {
+    /// Boost.Context continuation instance.
     ctx::continuation continuation_;
 
 public:
