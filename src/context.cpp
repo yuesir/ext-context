@@ -8,7 +8,7 @@
 
 /* {{{ continuation_resume_arginfo */
 ZEND_BEGIN_ARG_INFO(continuation_resume_arginfo, 0)
-    ZEND_ARG_CALLABLE_INFO(0, function, 0)
+    ZEND_ARG_CALLABLE_INFO(0, ctx_func, 0)
 ZEND_END_ARG_INFO()
 /* }}} */
 
@@ -20,7 +20,7 @@ ZEND_END_ARG_INFO()
 
 /* {{{ callcc_arginfo */
 ZEND_BEGIN_ARG_INFO(callcc_arginfo, 0)
-    ZEND_ARG_CALLABLE_INFO(0, context_function, 0)
+    ZEND_ARG_CALLABLE_INFO(0, ctx_func, 0)
 ZEND_END_ARG_INFO()
 /* }}} */
 

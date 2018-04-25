@@ -12,7 +12,7 @@ Context switching library for PHP.
 
 ## 2. Documentation
 
-* See [here](continuation.hpp) for protos.
+* See [here](stubs/) for stubs.
 
 * This library behaves similar to the Boost.Context library. See [here](http://www.boost.org/doc/libs/1_66_0/libs/context/doc/html/context/cc.html) for Boost's official documentation.
 

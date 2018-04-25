@@ -25,7 +25,7 @@ public:
         ctx::continuation&& other
     ) noexcept : continuation_(std::move(other)) {}
 
-    /* {{{ proto Continuation Continuation::resume([callable function]);
+    /* {{{ proto Continuation Continuation::resume([callable ctx_func]);
      * Resume current continuation.
      * You can execute a new function on top of resumed continuation. */
     P3_METHOD_DECLARE(resume);
@@ -57,7 +57,7 @@ public:
         return std::move(continuation_);
     }
 
-    /* {{{ proto Continuation callcc(callable context_function);
+    /* {{{ proto Continuation callcc(callable ctx_func);
      * Capture current continuation and trigger context switch. */
     static P3_METHOD_DECLARE(callcc);
     /* }}} */

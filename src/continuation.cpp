@@ -58,7 +58,7 @@ int continuation::compare(const continuation& other) const
         return 0;
     if (continuation_ > other.continuation_)
         return 1;
-    return 0;
+    return -1;
 }
 
 P3_METHOD(continuation, callcc)

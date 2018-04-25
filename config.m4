@@ -8,7 +8,9 @@ if test "$PHP_CONTEXT" != "no"; then
     wget https://raw.githubusercontent.com/phplang/p3/master/p3.h &>/dev/null
   fi
 
-  PHP_NEW_EXTENSION(context, context.cpp continuation.cpp, $ext_shared,, -std=c++11)
+  CONTEXT_SRC="src/context.cpp
+    src/continuation.cpp"
+  PHP_NEW_EXTENSION(context, $CONTEXT_SRC, $ext_shared,, -std=c++11)
   PHP_ADD_LIBRARY(boost_context, 1, CONTEXT_SHARED_LIBADD)
   PHP_SUBST(CONTEXT_SHARED_LIBADD)
 fi

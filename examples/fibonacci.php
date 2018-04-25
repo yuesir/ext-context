@@ -9,10 +9,8 @@
  * @author CismonX
  */
 
-use Context\Continuation;
-
 $a = 1;
-$source = Context\callcc(function (Continuation &$sink) use (&$a) {
+$source = Context\callcc(function (Context\Continuation &$sink) use (&$a) {
     $b = 1;
     for (;;) {
         $sink = $sink->resume();
