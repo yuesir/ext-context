@@ -11,7 +11,7 @@
 
 use Context\Continuation;
 
-$a = 0;
+$a = 1;
 $source = Context\callcc(function (Continuation &$sink) use (&$a) {
     $b = 1;
     for (;;) {
