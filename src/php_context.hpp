@@ -27,6 +27,11 @@ extern zend_module_entry context_module_entry;
 ZEND_TSRMLS_CACHE_EXTERN()
 #endif
 
+#if PHP_VERSION_ID < 70300
+#define GC_ADDREF(p) ++GC_REFCOUNT(p)
+#define GC_DELREF(p) --GC_REFCOUNT(p)
+#endif
+
 #if PHP_VERSION_ID < 70115 || (PHP_VERSION_ID > 70200 && PHP_VERSION_ID < 70203)
 
 #if PHP_VERSION_ID < 70100

@@ -28,6 +28,7 @@ ZEND_END_ARG_INFO()
 static zend_function_entry continuation_methods[] = {
     P3_ME(continuation, resume, continuation_resume_arginfo, ZEND_ACC_PUBLIC)
     P3_ME(continuation, swap, continuation_swap_arginfo, ZEND_ACC_PUBLIC)
+    P3_ME(continuation, valid, nullptr, ZEND_ACC_PUBLIC)
     PHP_FE_END
 };
 /* }}} */

@@ -36,13 +36,9 @@ public:
     P3_METHOD_DECLARE(swap);
     /* }}} */
 
-    /**
-     * Whether the continuation is valid.
-     */
-    zend_bool toBool() const
-    {
-        return bool(continuation_);
-    }
+    /* {{{ proto void Continuation::valid(void);
+     *  Whether the continuation is valid. */
+    P3_METHOD_DECLARE(valid) const;
 
     /**
      * Comparation between two continuations.

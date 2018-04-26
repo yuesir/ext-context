@@ -20,6 +20,8 @@ Context switching library for PHP.
 
 ## 3. Notes
 
+**The `resume()` method with callback will segfault. Working on it.**
+
 Memory leaks may exist, as ZendMM will warn you if you are using a debug build of PHP.
 
 These leaks are mostly caused by never-returning closures, which is nothing to be worried about, even in PHP-CLI.

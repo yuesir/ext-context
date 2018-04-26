@@ -22,17 +22,20 @@
 
 P3_METHOD(continuation, resume)
 {
-    auto fci = empty_fcall_info;
-    auto fcc = empty_fcall_info_cache;
+    if (!continuation_) {
+        php_error_docref(nullptr, E_WARNING, "Continuation is no longer valid.");
+        RETURN_NULL();
+    }
+    zend_fcall_info fci;
+    zend_fcall_info_cache fcc;
     ZEND_PARSE_PARAMETERS_START(0, 1)
         Z_PARAM_OPTIONAL
         Z_PARAM_FUNC(fci, fcc);
     ZEND_PARSE_PARAMETERS_END();
     auto num_args = EX_NUM_ARGS();
-    if (num_args) {
+    if (num_args)
         fci.param_count = 1;
-        fci.no_separation = 0;
-    }
+    GC_DELREF(p3::toZendObject(this));
     RETVAL_OBJ(p3::allocObject<continuation>(class_entry,
         [num_args, &fci, &fcc, this](continuation* ptr) {
             new(ptr) continuation(num_args ?
@@ -52,6 +55,11 @@ P3_METHOD(continuation, swap)
     continuation_.swap(other->continuation_);
 }
 
+P3_METHOD(continuation, valid) const
+{
+    RETVAL_BOOL(continuation_.operator bool());
+}
+
 int continuation::compare(const continuation& other) const
 {
     if (continuation_ == other.continuation_)
@@ -63,13 +71,12 @@ int continuation::compare(const continuation& other) const
 
 P3_METHOD(continuation, callcc)
 {
-    auto fci = empty_fcall_info;
-    auto fcc = empty_fcall_info_cache;
+    zend_fcall_info fci;
+    zend_fcall_info_cache fcc;
     ZEND_PARSE_PARAMETERS_START(1, 1)
         Z_PARAM_FUNC(fci, fcc);
     ZEND_PARSE_PARAMETERS_END();
     fci.param_count = 1;
-    fci.no_separation = 0;
     RETVAL_OBJ(p3::allocObject<continuation>(class_entry,
         [&fci, &fcc](continuation* ptr) {
             new(ptr) continuation(ctx::callcc(PHP_CONTEXT_FUNCTION));

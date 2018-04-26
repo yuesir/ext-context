@@ -16,6 +16,7 @@ class Continuation
      * @return Continuation
      */
     function resume(callable $ctx_func) {}
+
     /**
      * Swap context with another continuation.
      *
@@ -23,4 +24,11 @@ class Continuation
      * @return void
      */
     function swap(Continuation $other) {}
+
+    /**
+     * Check whether the continuation is valid.
+     *
+     * @return bool
+     */
+    function valid() {}
 }
